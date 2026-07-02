@@ -1,0 +1,58 @@
+Technical Workflow: Step-by-Step Implementation
+Step 1: Virtual Environment Setup
+Hypervisor Deployment: Installed and configured Oracle VM VirtualBox as the base hypervisor platform.
+
+Virtual Machine Provisioning: Provisioned three isolated virtual instances:
+
+Firewall/Gateway: Assigned 4 vCPUs and 4 GB RAM to host the pfSense OS.
+
+Client Instance: Configured an OS instance to generate regular simulated user traffic.
+
+Attacker Instance: Set up an offensive system equipped with network scanning and stress-testing software.
+
+Step 2: Virtual Network Configuration
+Interface Mapping: Built a secure multi-interface topology to process traffic segments safely:
+
+WAN (External): Configured as a Bridged/NAT adapter connected directly to the physical host’s uplink network.
+
+LAN (Internal): Created an isolated, non-routable Internal Network subnet (192.168.1.1/24) connecting the firewall securely to the Client node.
+
+DMZ (Optional Peripheral): Mapped an additional subnet to host public-facing services if needed.
+
+Step 3: pfSense Firewall Setup & Traffic Engineering
+Core Configuration: Deployed and scripted pfSense settings to act as the primary security boundary.
+
+Access Control Policies (ACLs): Scripted and enforced foundational firewall rules:
+
+An explicit Pass rule allowing authorized protocol traffic outbound from the internal LAN to any destination.
+
+A restrictive Block rule to drop unsolicited external ICMP packets arriving over the WAN interface.
+
+Outbound Translation: Implemented Automatic Outbound Network Address Translation (NAT) so internal LAN nodes can access the external WAN.
+
+Step 4: Suricata Engine Integration (IDS Mode)
+Package Provisioning: Installed the stable Suricata threat detection package directly into the system pipeline.
+
+Rule Engine Activation: Hooked Suricata into threat feeds (Emerging Threats Open Ruleset) and initialized updates via the global management interface.
+
+Traffic Interception: Assigned Suricata to bind to designated network interfaces to sniff and perform deep packet inspection.
+
+Traffic Bypass Tuning: Enabled the option to bypass scrutiny for trusted internal traffic navigating the same local interface to keep packet processing optimized.
+
+Step 5: Transition to Real-Time Prevention (IPS Mode)
+Mitigation Activation: Shifted Suricata from a passive monitoring tool to an active protection layer by checking Block Offenders in the interface properties.
+
+Category Enforcement: Hand-selected and activated strict defensive signatures targeting malicious traffic patterns (dos.rules and emerging-dos.rules).
+
+Custom Signature Creation: Structured dedicated threshold rules directly inside the custom configuration field to intercept fine-grained patterns, including SYN, ACK, RST, UDP floods, and Ping of Death anomalies.
+
+Step 6: Attack Simulation, Logging, and Validation
+Launching the Attack Vector: Used the Low Orbit Ion Cannon (LOIC) utility on the Attacker VM to generate heavy, continuous TCP/UDP/HTTP request streams toward the internal targets.
+
+Telemetry Verification:
+
+Checked pfSense State logs under Diagnostics > States to actively observe the incoming volumetric traffic anomaly.
+
+Monitored Suricata alerts file (alerts.log) to confirm that signatures successfully identified the anomalous connection rates.
+
+Automatic Dropping Verification: Confirmed that Suricata automatically dropped traffic from offending IPs without degrading normal internal communications or generating false positives.
