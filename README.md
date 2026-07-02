@@ -1,2 +1,7 @@
 # VIRTUAL-FIREWALL-IDS-AND-IPS-WITH-SURICATA-
 This project integrates a virtual firewall with Suricata as a combined IDS/IPS within a virtual environment. By leveraging signature, anomaly, and hybrid detection mechanisms, the infrastructure monitors network traffic to identify, analyze, and block malicious activities in real-time.
+<img width="790" height="473" alt="image" src="https://github.com/user-attachments/assets/875ce401-3fff-4879-ace6-fda3be25c046" />
+
+This project outlines the system architecture, configuration of Suricata in conjunction with tools like iptables for traffic control,and thedeployment of custom rules to detect DoS attacks, port scans, and other malicious activities. Performance is evaluated by simulating real-world attack scenarios, including Denial of Service (DoS) attacks, and assessing the firewall's response.The results demonstrate Suricata’s efficiency in threat detection and its integration into a virtual firewall setup as a cost-effective, scalable solution for modern cybersecurity challenges. This work provides a framework for academic and practical implementations of network security mechanisms using open-source technologies.The project emphasizes the significance of open-source tools in 
+fostering accessibility and innovation in the cybersecurity domain. 
+<img width="836" height="348" alt="image" src="https://github.com/user-attachments/assets/7ba0fc55-9d42-42fe-9893-361075b866c1" />
